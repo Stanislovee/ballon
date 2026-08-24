@@ -1,6 +1,8 @@
 backend:
   name: git-gateway
   branch: main
+  # Додаємо register: true, щоб CMS показувала форму створення пароля
+  register: true
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
