@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
   <title>Content Manager</title>
-</head>
-<body>
-  <!-- Цей скрипт автоматично відкриває сторінку реєстрації, якщо є токен -->
   <script>
+    
     if (window.location.hash.includes('invite_token')) {
-      window.location.href = '/admin/#confirmation_token=' + window.location.hash.split('=')[1];
+      window.location.href = '/admin/?register=true#' + window.location.hash.split('#')[1];
     }
   </script>
+</head>
+<body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
