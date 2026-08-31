@@ -9,39 +9,80 @@ media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
 collections:
+  # ===== НАЛАШТУВАННЯ САЙТУ =====
   - name: "settings"
-    label: "Налаштування сайту"
+    label: "Налаштування Сайту"
     files:
       - name: "general"
-        label: "Зовнішній вигляд (Кольори, Шрифти)"
-        file: "content/theme.json"
+        label: "Шапка, Логотип, Контакти"
+        file: "content/header.json"
         fields:
-          - { label: "Колір фону сайту", name: "bg_color", widget: "color", default: "#FFFFFF" }
-          - { label: "Колір тексту", name: "text_color", widget: "color", default: "#4A3B33" }
-          - { label: "Колір заголовків", name: "heading_color", widget: "color", default: "#6B4A38" }
-          - { label: "Колір кнопок", name: "button_color", widget: "color", default: "#4E3527" }
-          - { label: "Колір фону шапки", name: "header_bg", widget: "color", default: "#E9DEC7" }
-          - { label: "Шрифт для заголовків", name: "heading_font", widget: "select", options: ["Playfair Display", "Georgia", "Arial", "Times New Roman", "Roboto"] }
-          - { label: "Шрифт для тексту", name: "body_font", widget: "select", options: ["Manrope", "Arial", "Verdana", "Helvetica", "Roboto"] }
-          - { label: "Розмір шрифту (px)", name: "base_font_size", widget: "number", default: 16, min: 12, max: 24, value_type: "int" }
-          - { label: "Розмір заголовків (px)", name: "heading_size", widget: "number", default: 34, min: 20, max: 60, value_type: "int" }
-      - name: "texts"
-        label: "Тексти та Логотип (Мова)"
-        file: "content/settings.json"
-        fields:
-          - { label: "Текстовий логотип", name: "site_title", widget: "string", default: "Подари<br>Шар 38" }
-          - { label: "Завантажити фото логотипу", name: "logo_image", widget: "image", required: false }
-          - { label: "Телефон", name: "phone", widget: "string", default: "+7 980 846 54 08" }
-          - { label: "Адреса", name: "address", widget: "text", default: "г. Иркутск,<br>ул. Байкальская 346/2" }
+          - { label: "Логотип (Текст)", name: "site_title", widget: "string", default: "Подари<br>Шар 38" }
+          - { label: "Логотип (Фото - опціонально)", name: "logo_image", widget: "image", required: false }
+          - { label: "Телефон (для кнопки)", name: "phone", widget: "string", default: "+7 980 846 54 08" }
+          - { label: "Адреса в шапці", name: "header_address", widget: "text", default: "г. Иркутск,<br>ул. Байкальская 346/2" }
           - { label: "Заголовок Hero", name: "hero_title", widget: "string", default: "Воздушные шары, которые превращают ваш праздник в незабываемое событие!" }
-          - { label: "Текст Hero", name: "hero_text", widget: "text", default: "Доставка до двери точно в срок. Создаем трендовые композиции." }
-          - { label: "Заголовок Популярних товарів", name: "popular_title", widget: "string", default: "Популярные наборы со скидкой" }
-          - { label: "Заголовок Каталогу", name: "catalog_title", widget: "string", default: "Каталог воздушных наборов" }
-          - { label: "Заголовок Футера", name: "footer_title", widget: "string", default: "Мы работаем для Вас" }
-          - { label: "Адреса в Футері", name: "footer_address", widget: "text", default: "по адресу: г. Иркутск, мкр-н. Солнечный, ул. Байкальская, 346/2" }
-          - { label: "Графік роботи", name: "footer_schedule", widget: "text", default: "Прием заказов с 9.00 до 19.00 ч." }
-          - { label: "Копірайт", name: "footer_copyright", widget: "string", default: "© Подари Шар 38, Иркутск. Все права защищены." }
+          - { label: "Текст Hero", name: "hero_text", widget: "text", default: "Доставка до двери точно в срок. Создаем трендовые композиции. Более 1000 сочетаний цветов и дизайнов под любой праздник." }
+          - { label: "Кнопка Hero (Головна)", name: "hero_btn1", widget: "string", default: "Подобрать оформление" }
+          - { label: "Кнопка Hero (Друга)", name: "hero_btn2", widget: "string", default: "Посмотреть каталог" }
 
+      - name: "sections"
+        label: "Тексти Секцій"
+        file: "content/sections.json"
+        fields:
+          - { label: "Заголовок Популярних наборів", name: "popular_title", widget: "string", default: "Популярные наборы со скидкой" }
+          - { label: "Заголовок Каталогу", name: "catalog_title", widget: "string", default: "Каталог воздушных наборов" }
+          - { label: "Заголовок Як ми працюємо", name: "work_title", widget: "string", default: "Как мы работаем?" }
+          - { label: "Заголовок Відгуків", name: "reviews_title", widget: "string", default: "Каждый день создаем десятки счастливых моментов для наших клиентов" }
+          - { label: "Заголовок CTA", name: "cta_text", widget: "string", default: "Не смогли найти нужный товар?" }
+          - { label: "Заголовок Форми", name: "form_title", widget: "string", default: "Оставьте свои данные, мы свяжемся с Вами в течение 15 минут и поможем с выбором." }
+          - { label: "Назва поля Ім'я", name: "form_name", widget: "string", default: "Ваше имя" }
+          - { label: "Назва поля Телефон", name: "form_phone", widget: "string", default: "Телефон" }
+          - { label: "Кнопка Форми", name: "form_btn", widget: "string", default: "Отправить" }
+          - { label: "Заголовок FAQ", name: "faq_title", widget: "string", default: "Частые вопросы" }
+          - { label: "Заголовок Футера", name: "footer_title", widget: "string", default: "Мы работаем для Вас" }
+          - { label: "Адреса в Футері", name: "footer_address", widget: "text", default: "по адресу: г. Иркутск, мкр-н. Солнечный, ул. Байкальская, 346/2 (пункт самовывоза)" }
+          - { label: "Графік роботи", name: "footer_schedule", widget: "text", default: "Прием заказов с 9.00 до 19.00 ч.<br>Доставка с 7.00 до 24.00 ч" }
+          - { label: "Телефон в Футері", name: "footer_phone", widget: "string", default: "+7 980 846 54 08" }
+          - { label: "Копірайт", name: "footer_copyright", widget: "string", default: "© Подари Шар 38, Иркутск. Все права защищены." }
+          - { label: "Текст стрічки (біжить)", name: "marquee_text", widget: "string", default: "Скидка на первый заказ 5% • " }
+
+      - name: "categories"
+        label: "Категорії Каталогу"
+        file: "content/categories.json"
+        fields:
+          - { label: "Назва 1 (1 сентября)", name: "cat1_title", widget: "string", default: "1 сентября" }
+          - { label: "Опис 1", name: "cat1_desc", widget: "text", default: "Школьная пора начинается с ярких эмоций. Создаем атмосферу праздника для первого и самого важного звонка" }
+          - { label: "Кнопка 1", name: "cat1_btn", widget: "string", default: "Больше вариантов" }
+          - { label: "Назва 2 (Выписка)", name: "cat2_title", widget: "string", default: "Выписка" }
+          - { label: "Опис 2", name: "cat2_desc", widget: "text", default: "Первая встреча с малышом начинается с красивых деталей. Оформление, которое запомнится на всю жизнь" }
+          - { label: "Назва 3 (Гендер-пати)", name: "cat3_title", widget: "string", default: "Гендер-пати" }
+          - { label: "Опис 3", name: "cat3_desc", widget: "text", default: "Создаем атмосферу интриги и восторга, чтобы момент раскрытия стал самым ярким воспоминанием" }
+          - { label: "Назва 4 (Для мальчиков)", name: "cat4_title", widget: "string", default: "Для мальчиков" }
+          - { label: "Опис 4", name: "cat4_desc", widget: "text", default: "Любимые герои, яркие цвета и композиции, которые превращают праздник в настоящее приключение" }
+          - { label: "Назва 5 (Для девочек)", name: "cat5_title", widget: "string", default: "Для девочек" }
+          - { label: "Опис 5", name: "cat5_desc", widget: "text", default: "Нежные пастельные оттенки, банты и сердца — оформление, о котором мечтает каждая принцесса" }
+          - { label: "Назва 6 (День рождения взрослого)", name: "cat6_title", widget: "string", default: "День рождения взрослого" }
+          - { label: "Опис 6", name: "cat6_desc", widget: "text", default: "Стильные хром-композиции и крупные цифры — для тех, кто хочет отпраздновать со вкусом" }
+          - { label: "Назва 7 (Романтика)", name: "cat7_title", widget: "string", default: "Романтика" }
+          - { label: "Опис 7", name: "cat7_desc", widget: "text", default: "Сердца, фото и признания на шарах — трогательный сюрприз для любимого человека" }
+          - { label: "Назва 8 (Мероприятия)", name: "cat8_title", widget: "string", default: "Мероприятия для бизнеса" }
+          - { label: "Опис 8", name: "cat8_desc", widget: "text", default: "Брендированное оформление открытий, презентаций и корпоративов под ключ" }
+
+      - name: "steps"
+        label: "Кроки (Як ми працюємо)"
+        file: "content/steps.json"
+        fields:
+          - { label: "Крок 1: Заголовок", name: "step1_title", widget: "string", default: "С акцентом на индивидуальность" }
+          - { label: "Крок 1: Опис", name: "step1_desc", widget: "text", default: "Каждый заказ мы создаем с нуля под Вашу задачу. Персональный менеджер выслушает все пожелания и предложит именно то, что нужно Вам." }
+          - { label: "Крок 2: Заголовок", name: "step2_title", widget: "string", default: "С любым бюджетом" }
+          - { label: "Крок 2: Опис", name: "step2_desc", widget: "text", default: "Неважно, сколько Вы готовы потратить своего бюджета на воздушные шары. Мы создаем красивое оформление и за 1000 и за 10.000 рублей." }
+          - { label: "Крок 3: Заголовок", name: "step3_title", widget: "string", default: "С учетом Ваших сроков" }
+          - { label: "Крок 3: Опис", name: "step3_desc", widget: "text", default: "Оформляем заказ быстро — от звонка до подтверждения не более 15 минут. Доставляем строго в выбранное Вами время." }
+          - { label: "Крок 4: Заголовок", name: "step4_title", widget: "string", default: "С заботой о природе" }
+          - { label: "Крок 4: Опис", name: "step4_desc", widget: "text", default: "Все наши шары изготовлены из натурального латекса — материала, который полностью разлагается и не наносит вреда окружающей среде." }
+
+  # ===== ТОВАРИ =====
   - name: "products"
     label: "Товари"
     folder: "content/products"
@@ -55,6 +96,7 @@ collections:
       - { label: "Короткий опис", name: "desc", widget: "text" }
       - { label: "Посилання", name: "link", widget: "string", default: "#" }
 
+  # ===== ВІДГУКИ =====
   - name: "reviews"
     label: "Відгуки"
     folder: "content/reviews"
@@ -64,6 +106,7 @@ collections:
       - { label: "Дата", name: "date", widget: "string" }
       - { label: "Текст відгуку", name: "text", widget: "text" }
 
+  # ===== FAQ =====
   - name: "faq"
     label: "Питання (FAQ)"
     folder: "content/faq"
@@ -72,3 +115,21 @@ collections:
     fields:
       - { label: "Питання", name: "question", widget: "string" }
       - { label: "Відповідь", name: "answer", widget: "text" }
+
+  # ===== ЗОВНІШНІЙ ВИГЛЯД (КОЛЬОРИ ТА ШРИФТИ) =====
+  - name: "theme"
+    label: "Зовнішній вигляд (Кольори, Шрифти)"
+    files:
+      - name: "general"
+        label: "Кольори та Шрифти"
+        file: "content/theme.json"
+        fields:
+          - { label: "Колір фону сайту", name: "bg_color", widget: "color", default: "#FFFFFF" }
+          - { label: "Колір тексту", name: "text_color", widget: "color", default: "#4A3B33" }
+          - { label: "Колір заголовків", name: "heading_color", widget: "color", default: "#6B4A38" }
+          - { label: "Колір кнопок", name: "button_color", widget: "color", default: "#4E3527" }
+          - { label: "Колір фону шапки", name: "header_bg", widget: "color", default: "#E9DEC7" }
+          - { label: "Шрифт для заголовків", name: "heading_font", widget: "select", options: ["Playfair Display", "Georgia", "Arial", "Times New Roman", "Roboto"] }
+          - { label: "Шрифт для тексту", name: "body_font", widget: "select", options: ["Manrope", "Arial", "Verdana", "Helvetica", "Roboto"] }
+          - { label: "Розмір шрифту (px)", name: "base_font_size", widget: "number", default: 16, min: 12, max: 24, value_type: "int" }
+          - { label: "Розмір заголовків (px)", name: "heading_size", widget: "number", default: 34, min: 20, max: 60, value_type: "int" }
