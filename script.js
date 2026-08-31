@@ -164,7 +164,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (theme.base_font_size) root.style.setProperty('--base-font-size', theme.base_font_size + 'px');
     if (theme.heading_size) root.style.setProperty('--heading-size', theme.heading_size + 'px');
 
-    // Додаємо стилі для шрифтів, які не були в CSS
     const styleTag = document.createElement('style');
     styleTag.innerHTML = `
       body { font-family: var(--body-font, 'Manrope'), sans-serif; font-size: var(--base-font-size, 16px); }
@@ -181,7 +180,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (el) el.innerHTML = text;
     };
 
-    // Логотип
     if (settings.logo_image) {
       document.querySelector('.logo').innerHTML = `<img src="${settings.logo_image}" alt="Logo" style="max-height: 50px;">`;
     } else {
@@ -198,4 +196,257 @@ document.addEventListener('DOMContentLoaded', async () => {
     setText('.site-footer p:nth-of-type(2)', settings.footer_schedule);
     setText('.footer-bottom', settings.footer_copyright);
   }
+
+  // 3. ЗАВАНТАЖЕННЯ ТОВАРІВ (Автоматичне читання всіх файлів)
+  const productContainer = document.querySelector('.product-grid');
+  if (productContainer) {
+    // Якщо у папці є products.json, читаємо його
+    const jsonProducts = await fetchData('content/products/products.json');
+    if (jsonProducts) {
+      productContainer.innerHTML = jsonProducts.map(p => `
+        <div class="product-card reveal in">
+          <div class="thumb"><img src="${p.image}" alt="${p.title}"></div>
+          <div class="body">
+            <h3>${p.title}</h3>
+            <div class="price">${p.price} р. ${p.old_price ? `<span class="old">${p.old_price} р.</span>` : ''}</div>
+            <div class="card-actions">
+              <a href="${p.link}" class="btn btn-outline btn-sm">Подробнее о наборе</a>
+              <button class="btn btn-primary btn-sm">Заказать</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    } else {
+      // Якщо JSON немає, використовуємо GitHub API для .md файлів
+      try {
+        const repoResponse = await fetch('https://api.github.com/repos/Stanislovee/ballon/contents/content/products');
+        if (repoResponse.ok) {
+          const files = await repoResponse.json();
+          const mdFiles = files.filter(f => f.name.endsWith('.md'));
+          
+          const products = [];
+          for (const file of mdFiles) {
+            const mdText = await fetch(file.download_url).then(r => r.text());
+            
+            const lines = mdText.split('\n');
+            let title = '', price = 0, old_price = null, image = '', desc = '', link = '#';
+            let inFrontMatter = false;
+            let frontMatter = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+              if (lines[i].trim() === '---') {
+                inFrontMatter = !inFrontMatter;
+                if (!inFrontMatter) break;
+                continue;
+              }
+              if (inFrontMatter) frontMatter.push(lines[i]);
+            }
+            
+            frontMatter.forEach(line => {
+              const [key, ...value] = line.split(':');
+              const val = value.join(':').trim().replace(/^"|"$/g, '');
+              switch(key.trim()) {
+                case 'title': title = val; break;
+                case 'price': price = parseFloat(val); break;
+                case 'old_price': old_price = val ? parseFloat(val) : null; break;
+                case 'image': image = val; break;
+                case 'desc': desc = val; break;
+                case 'link': link = val; break;
+              }
+            });
+            
+            products.push({ title, price, old_price, image, desc, link });
+          }
+          
+          if (products.length > 0) {
+            productContainer.innerHTML = products.map(p => `
+              <div class="product-card reveal in">
+                <div class="thumb"><img src="${p.image}" alt="${p.title}"></div>
+                <div class="body">
+                  <h3>${p.title}</h3>
+                  <div class="price">${p.price} р. ${p.old_price ? `<span class="old">${p.old_price} р.</span>` : ''}</div>
+                  <div class="card-actions">
+                    <a href="${p.link}" class="btn btn-outline btn-sm">Подробнее о наборе</a>
+                    <button class="btn btn-primary btn-sm">Заказать</button>
+                  </div>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+      } catch (error) {
+        console.error('Error loading products:', error);
+      }
+    }
+  }
+
+  // 4. ЗАВАНТАЖЕННЯ ВІДГУКІВ (Автоматичне читання всіх файлів)
+  const reviewContainer = document.querySelector('.review-track');
+  if (reviewContainer) {
+    const jsonReviews = await fetchData('content/reviews/reviews.json');
+    if (jsonReviews) {
+      reviewContainer.innerHTML = jsonReviews.map(r => `
+        <div class="review-card">
+          <span class="stars">★★★★★</span><span class="review-date">${r.date}</span>
+          <p>${r.text}</p>
+        </div>
+      `).join('');
+    } else {
+      try {
+        const repoResponse = await fetch('https://api.github.com/repos/Stanislovee/ballon/contents/content/reviews');
+        if (repoResponse.ok) {
+          const files = await repoResponse.json();
+          const mdFiles = files.filter(f => f.name.endsWith('.md'));
+          
+          const reviews = [];
+          for (const file of mdFiles) {
+            const mdText = await fetch(file.download_url).then(r => r.text());
+            
+            const lines = mdText.split('\n');
+            let date = '', text = '';
+            let inFrontMatter = false;
+            let frontMatter = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+              if (lines[i].trim() === '---') {
+                inFrontMatter = !inFrontMatter;
+                if (!inFrontMatter) break;
+                continue;
+              }
+              if (inFrontMatter) frontMatter.push(lines[i]);
+            }
+            
+            frontMatter.forEach(line => {
+              const [key, ...value] = line.split(':');
+              const val = value.join(':').trim().replace(/^"|"$/g, '');
+              switch(key.trim()) {
+                case 'date': date = val; break;
+                case 'text': text = val; break;
+              }
+            });
+            
+            reviews.push({ date, text });
+          }
+          
+          if (reviews.length > 0) {
+            reviewContainer.innerHTML = reviews.map(r => `
+              <div class="review-card">
+                <span class="stars">★★★★★</span><span class="review-date">${r.date}</span>
+                <p>${r.text}</p>
+              </div>
+            `).join('');
+            
+            const newTrack = document.querySelector('.review-track');
+            const cards = newTrack.children.length;
+            let perView = window.innerWidth <= 720 ? 1 : (window.innerWidth <= 980 ? 2 : 3);
+            let index = 0;
+            const update = () => {
+              perView = window.innerWidth <= 720 ? 1 : (window.innerWidth <= 980 ? 2 : 3);
+              const max = Math.max(0, cards - perView);
+              if (index > max) index = max;
+              const pct = (100 / perView) * index;
+              newTrack.style.transform = `translateX(-${pct}%)`;
+            };
+            document.querySelector('.review-next')?.addEventListener('click', () => {
+              const max = Math.max(0, cards - perView);
+              index = index >= max ? 0 : index + 1;
+              update();
+            });
+            document.querySelector('.review-prev')?.addEventListener('click', () => {
+              const max = Math.max(0, cards - perView);
+              index = index <= 0 ? max : index - 1;
+              update();
+            });
+            window.addEventListener('resize', update);
+            update();
+          }
+        }
+      } catch (error) {
+        console.error('Error loading reviews:', error);
+      }
+    }
+  }
+
+  // 5. ЗАВАНТАЖЕННЯ FAQ (Автоматичне читання всіх файлів)
+  const faqContainer = document.querySelector('.section .reveal');
+  if (faqContainer) {
+    const jsonFaq = await fetchData('content/faq/faq.json');
+    if (jsonFaq) {
+      faqContainer.innerHTML = jsonFaq.map(faq => `
+        <div class="faq-item">
+          <div class="faq-q">
+            <h4>${faq.question}</h4>
+            <span class="faq-toggle"></span>
+          </div>
+          <div class="faq-a">
+            <p>${faq.answer}</p>
+          </div>
+        </div>
+      `).join('');
+    } else {
+      try {
+        const repoResponse = await fetch('https://api.github.com/repos/Stanislovee/ballon/contents/content/faq');
+        if (repoResponse.ok) {
+          const files = await repoResponse.json();
+          const mdFiles = files.filter(f => f.name.endsWith('.md'));
+          
+          const faqs = [];
+          for (const file of mdFiles) {
+            const mdText = await fetch(file.download_url).then(r => r.text());
+            
+            const lines = mdText.split('\n');
+            let question = '', answer = '';
+            let inFrontMatter = false;
+            let frontMatter = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+              if (lines[i].trim() === '---') {
+                inFrontMatter = !inFrontMatter;
+                if (!inFrontMatter) break;
+                continue;
+              }
+              if (inFrontMatter) frontMatter.push(lines[i]);
+            }
+            
+            frontMatter.forEach(line => {
+              const [key, ...value] = line.split(':');
+              const val = value.join(':').trim().replace(/^"|"$/g, '');
+              switch(key.trim()) {
+                case 'question': question = val; break;
+                case 'answer': answer = val; break;
+              }
+            });
+            
+            faqs.push({ question, answer });
+          }
+          
+          if (faqs.length > 0) {
+            faqContainer.innerHTML = faqs.map(faq => `
+              <div class="faq-item">
+                <div class="faq-q">
+                  <h4>${faq.question}</h4>
+                  <span class="faq-toggle"></span>
+                </div>
+                <div class="faq-a">
+                  <p>${faq.answer}</p>
+                </div>
+              </div>
+            `).join('');
+            
+            // Після заміни, повторно ініціалізуємо акордеон
+            document.querySelectorAll('.faq-item').forEach(item => {
+              item.querySelector('.faq-q').addEventListener('click', () => {
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+              });
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error loading faq:', error);
+      }
+    }
+  }
+
 });
