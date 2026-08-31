@@ -1,8 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: Stanislovee/ballon
   branch: main
-  # Додаємо register: true, щоб CMS показувала форму створення пароля
-  register: true
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
@@ -20,7 +21,7 @@ collections:
           - { label: "Колір заголовків", name: "heading_color", widget: "color", default: "#6B4A38" }
           - { label: "Колір кнопок", name: "button_color", widget: "color", default: "#4E3527" }
           - { label: "Колір фону шапки", name: "header_bg", widget: "color", default: "#E9DEC7" }
-          - { label: "Шрифт для заголовків (наприклад, чеський)", name: "heading_font", widget: "select", options: ["Playfair Display", "Georgia", "Arial", "Times New Roman", "Roboto"] }
+          - { label: "Шрифт для заголовків", name: "heading_font", widget: "select", options: ["Playfair Display", "Georgia", "Arial", "Times New Roman", "Roboto"] }
           - { label: "Шрифт для тексту", name: "body_font", widget: "select", options: ["Manrope", "Arial", "Verdana", "Helvetica", "Roboto"] }
           - { label: "Розмір шрифту (px)", name: "base_font_size", widget: "number", default: 16, min: 12, max: 24, value_type: "int" }
           - { label: "Розмір заголовків (px)", name: "heading_size", widget: "number", default: 34, min: 20, max: 60, value_type: "int" }
@@ -28,12 +29,12 @@ collections:
         label: "Тексти та Логотип (Мова)"
         file: "content/settings.json"
         fields:
-          - { label: "Текстовий логотип (наприклад, чеською)", name: "site_title", widget: "string", default: "Подари<br>Шар 38" }
-          - { label: "Завантажити фото логотипу (опціонально)", name: "logo_image", widget: "image", required: false }
+          - { label: "Текстовий логотип", name: "site_title", widget: "string", default: "Подари<br>Шар 38" }
+          - { label: "Завантажити фото логотипу", name: "logo_image", widget: "image", required: false }
           - { label: "Телефон", name: "phone", widget: "string", default: "+7 980 846 54 08" }
           - { label: "Адреса", name: "address", widget: "text", default: "г. Иркутск,<br>ул. Байкальская 346/2" }
-          - { label: "Заголовок Hero (чеською)", name: "hero_title", widget: "string", default: "Воздушные шары, которые превращают ваш праздник в незабываемое событие!" }
-          - { label: "Текст Hero (чеською)", name: "hero_text", widget: "text", default: "Доставка до двери точно в срок. Создаем трендовые композиции." }
+          - { label: "Заголовок Hero", name: "hero_title", widget: "string", default: "Воздушные шары, которые превращают ваш праздник в незабываемое событие!" }
+          - { label: "Текст Hero", name: "hero_text", widget: "text", default: "Доставка до двери точно в срок. Создаем трендовые композиции." }
           - { label: "Заголовок Популярних товарів", name: "popular_title", widget: "string", default: "Популярные наборы со скидкой" }
           - { label: "Заголовок Каталогу", name: "catalog_title", widget: "string", default: "Каталог воздушных наборов" }
           - { label: "Заголовок Футера", name: "footer_title", widget: "string", default: "Мы работаем для Вас" }
