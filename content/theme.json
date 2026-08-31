@@ -1,9 +1,9 @@
 {
-  "bg_color": "#FFFFFF",
+  "bg_color": "#ab8c8c",
   "text_color": "#191615",
-  "heading_color": "#1e00ff",
-  "button_color": "#ff0026",
-  "header_bg": "#ffae00",
+  "heading_color": "#af4b5a",
+  "button_color": "#3b2e9e",
+  "header_bg": "#918059",
   "heading_font": "Playfair Display",
   "body_font": "Arial",
   "base_font_size": 16,
