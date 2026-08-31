@@ -1,0 +1,11 @@
+{
+  "bg_color": "#ab8c8c",
+  "text_color": "#191615",
+  "heading_color": "#af4b5a",
+  "button_color": "#3b2e9e",
+  "header_bg": "#918059",
+  "heading_font": "Playfair Display",
+  "body_font": "Arial",
+  "base_font_size": 16,
+  "heading_size": 34
+}
